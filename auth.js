@@ -28,13 +28,7 @@ const auth = new google.auth.OAuth2(
 // Listen for tokens and log them
 auth.on("tokens", (tokens) => {
     process.env.GOOGLE_REFRESH_TOKEN = tokens.refresh_token
-    console.log("Narendra",process.env.GOOGLE_REFRESH_TOKEN)
-    if (tokens.refresh_token) {
-
-        console.log("New Refresh Token:", tokens.refresh_token);
-        // Store refresh token securely (database or .env file)
-    }
-    console.log("New Access Token:", tokens.access_token);
+    
 });
 
 // Google OAuth Strategy
@@ -55,16 +49,11 @@ passport.use(
             prompt: "consent",
         },
         async (accessToken, refreshToken, profile, done) => {
-            // Set access token for use in API requests
-            auth.setCredentials({ access_token: accessToken });
-            process.env.GOOGLE_ACCESS_TOKEN = accessToken
+           
+            process.env.GOOGLE_REFRESH_TOKEN = refreshToken
 
-            // Log tokens for debugging
-            console.log("Access Token:", accessToken);
-            console.log("Refresh Token:", refreshToken);
-            if (refreshToken) {
-                console.log("Refresh Token:", refreshToken);
-            }
+            
+           
 
             try {
                 // Check if user exists in DB
